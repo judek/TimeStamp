@@ -9,6 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
 import android.view.View;
@@ -46,18 +48,60 @@ public class MainActivity extends AppCompatActivity {
                 .getBoolean("checkBox24", false);
         checkBox24.setChecked(checked);
 
+        int idx = PreferenceManager.getDefaultSharedPreferences(this)
+               .getInt("DateFormatIndex", 1);
+
+        RadioButton radio = null;
+
+        switch(idx) {
+            case 1:
+                radio = (RadioButton) findViewById(R.id.radioButtonUSA);
+                break;
+            case 2:
+                radio = (RadioButton) findViewById(R.id.radioButtonEurope);
+                break;
+            case 3:
+                radio = (RadioButton) findViewById(R.id.radioButtonISO);
+                break;
+        }
+
+        radio.setChecked(true);
 
         button.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 TextView iv = (TextView) findViewById(R.id.textView);
 
+                RadioGroup radiogroup = (RadioGroup) findViewById(R.id.RadioGroupDateFormat);
+
+                int radioButtonID = radiogroup.getCheckedRadioButtonId();
+                View radioButton = radiogroup.findViewById(radioButtonID);
+                int idx = radiogroup.indexOfChild(radioButton);
+
+                String strYearFormat = "";
+
                 String strFormat = "";
+
+                switch(idx) {
+                    case 1:
+                        strYearFormat = "MM/dd/yyyy";
+                        break;
+                    case 2:
+                        strYearFormat = "dd/MM/yyyy";
+                        break;
+                    case 3:
+                        strYearFormat = "yyyy/MM/dd";
+                        break;
+                }
+
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                        .putInt("DateFormatIndex", idx).commit();
+
 
 
                 if (true == checkBox24.isChecked()) {
-                    strFormat = "MM/dd/yyyy HH:mm";
+                    strFormat = strYearFormat + " HH:mm";
                 } else {
-                    strFormat = "MM/dd/yyyy h:mm a";
+                    strFormat = strYearFormat + " h:mm a";
                 }
 
                 if (true == checkBoxSeconds.isChecked()) {

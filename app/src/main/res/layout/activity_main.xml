@@ -66,6 +66,52 @@
         android:onClick="itemClicked"
         android:checked="false" />
 
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/RadioGroupDateFormat"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/button"
+        android:layout_toEndOf="@+id/checkBoxSeconds"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:layout_alignLeft="@+id/button"
+        android:layout_alignStart="@+id/button">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Date Format"
+            android:id="@+id/textView3"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#FFFFFF" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MM/DD/YYYY"
+            android:id="@+id/radioButtonUSA"
+            android:layout_gravity="center_horizontal"
+            android:checked="true" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DD/MM/YYYY"
+            android:id="@+id/radioButtonEurope"
+            android:layout_gravity="center_horizontal"
+            android:checked="false" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="YYYY/MM/DD"
+            android:id="@+id/radioButtonISO"
+            android:layout_gravity="center_horizontal"
+            android:checked="false" />
+    </RadioGroup>
 
 
 </RelativeLayout>
