@@ -1,9 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'TimeStamp'
+            keyPassword '03docs2002'
+            storeFile file('C:/Users/judek/TimeStampKeyStore.jks')
+            storePassword '03docs2002'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
-
     defaultConfig {
         applicationId "com.judek.timestamp"
         minSdkVersion 14
@@ -20,6 +27,6 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:23.0.1'
 }
