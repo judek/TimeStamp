@@ -6,14 +6,6 @@
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
     android:background="#006699">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Generate Time Stamp"
-        android:id="@+id/button"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,28 +13,8 @@
         android:textColor="#FFFFFF"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textSize="25dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Time Stamp Generator"
-        android:id="@+id/textView2"
-        android:textColor="#FFFFFF"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="81dp" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Auto copy to clipbord"
-        android:id="@+id/checkBox"
-        android:layout_above="@+id/button"
-        android:layout_alignLeft="@+id/button"
-        android:onClick="itemClicked"
-        android:layout_alignStart="@+id/button" />
+        android:textSize="22dp"
+        android:textIsSelectable="true" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -58,7 +30,7 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Show Seconds"
+        android:text="Show seconds"
         android:id="@+id/checkBoxSeconds"
         android:layout_below="@+id/checkBox24"
         android:layout_alignParentLeft="true"
@@ -72,12 +44,12 @@
         android:id="@+id/RadioGroupDateFormat"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/button"
         android:layout_toEndOf="@+id/checkBoxSeconds"
         android:orientation="vertical"
         android:gravity="center_vertical"
         android:layout_alignLeft="@+id/button"
-        android:layout_alignStart="@+id/button">
+        android:layout_alignStart="@+id/button"
+        android:layout_below="@+id/checkBox">
 
         <TextView
             android:layout_width="wrap_content"
@@ -86,7 +58,9 @@
             android:text="Date Format"
             android:id="@+id/textView3"
             android:layout_gravity="center_horizontal"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:layout_below="@+id/checkBox"
+            android:layout_alignParentLeft="true" />
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -94,24 +68,66 @@
             android:text="MM/DD/YYYY"
             android:id="@+id/radioButtonUSA"
             android:layout_gravity="center_horizontal"
-            android:checked="true" />
+            android:checked="true"
+            android:layout_below="@+id/textView3"
+            android:layout_alignParentLeft="true" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="DD/MM/YYYY"
             android:id="@+id/radioButtonEurope"
-            android:layout_gravity="center_horizontal"
-            android:checked="false" />
+            android:checked="false"
+            android:layout_below="@+id/radioButtonUSA"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="center_horizontal" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="YYYY/MM/DD"
             android:id="@+id/radioButtonISO"
-            android:layout_gravity="center_horizontal"
-            android:checked="false" />
+            android:checked="false"
+            android:layout_gravity="center_horizontal" />
     </RadioGroup>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Use hyphens for date separator"
+        android:id="@+id/checkBoxHyphen"
+        android:layout_below="@+id/checkBoxSeconds"
+        android:onClick="itemClicked"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Use under score for time separator"
+        android:id="@+id/checkBoxUnderScore"
+        android:layout_below="@+id/checkBoxHyphen"
+        android:onClick="itemClicked"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Generate Time Stamp"
+        android:id="@+id/button"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Auto copy to clipbord"
+        android:id="@+id/checkBox"
+        android:onClick="itemClicked"
+        android:layout_below="@+id/button"
+        android:layout_alignParentLeft="true" />
 
 
 </RelativeLayout>

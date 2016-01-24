@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
         final CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox);
         final CheckBox checkBoxSeconds = (CheckBox) findViewById(R.id.checkBoxSeconds);
         final CheckBox checkBox24 = (CheckBox) findViewById(R.id.checkBox24);
+        final CheckBox checkBoxHyphen = (CheckBox) findViewById(R.id.checkBoxHyphen);
+        final CheckBox checkBoxUnderScore = (CheckBox) findViewById(R.id.checkBoxUnderScore);
 
         boolean checked = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("checkBox", false);
@@ -47,6 +49,14 @@ public class MainActivity extends AppCompatActivity {
         checked = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("checkBox24", false);
         checkBox24.setChecked(checked);
+
+        checked = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean("checkBoxHyphen", false);
+        checkBoxHyphen.setChecked(checked);
+
+        checked = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean("checkBoxUnderScore", false);
+        checkBoxUnderScore.setChecked(checked);
 
         int idx = PreferenceManager.getDefaultSharedPreferences(this)
                .getInt("DateFormatIndex", 1);
@@ -96,19 +106,26 @@ public class MainActivity extends AppCompatActivity {
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
                         .putInt("DateFormatIndex", idx).commit();
 
-
+                //This is a test
 
                 if (true == checkBox24.isChecked()) {
                     strFormat = strYearFormat + " HH:mm";
                 } else {
-                    strFormat = strYearFormat + " h:mm a";
+                    strFormat = strYearFormat + " hh:mm a";
                 }
 
                 if (true == checkBoxSeconds.isChecked()) {
-                    //strFormat = "MM/dd/yyyy h:mm:ss a";
                     strFormat = strFormat.replace(":mm", ":mm:ss");
                 }
 
+                if (true == checkBoxHyphen.isChecked()) {
+                    strFormat = strFormat.replace("/", "-");
+                }
+
+                if (true == checkBoxUnderScore.isChecked()) {
+                    strFormat = strFormat.replace(":", "_");
+                    strFormat = strFormat.replace(" ", "_");
+                }
 
                 java.util.Date date = new java.util.Date();
                 Timestamp ts = new Timestamp(date.getTime());
@@ -172,6 +189,16 @@ public class MainActivity extends AppCompatActivity {
             case R.id.checkBox24:
                 PreferenceManager.getDefaultSharedPreferences(this).edit()
                         .putBoolean("checkBox24", checked).commit();
+                break;
+
+            case R.id.checkBoxHyphen:
+                PreferenceManager.getDefaultSharedPreferences(this).edit()
+                        .putBoolean("checkBoxHyphen", checked).commit();
+                break;
+
+            case R.id.checkBoxUnderScore:
+                PreferenceManager.getDefaultSharedPreferences(this).edit()
+                        .putBoolean("checkBoxUnderScore", checked).commit();
                 break;
         }
 
