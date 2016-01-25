@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -37,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
         final CheckBox checkBox24 = (CheckBox) findViewById(R.id.checkBox24);
         final CheckBox checkBoxHyphen = (CheckBox) findViewById(R.id.checkBoxHyphen);
         final CheckBox checkBoxUnderScore = (CheckBox) findViewById(R.id.checkBoxUnderScore);
+        final CheckBox checkBoxManual = (CheckBox) findViewById(R.id.checkBoxManual);
+
+
+
 
         boolean checked = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("checkBox", false);
@@ -57,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
         checked = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("checkBoxUnderScore", false);
         checkBoxUnderScore.setChecked(checked);
+
+        checked = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean("checkBoxManual", false);
+        checkBoxManual.setChecked(checked);
 
         int idx = PreferenceManager.getDefaultSharedPreferences(this)
                .getInt("DateFormatIndex", 1);
@@ -80,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 TextView iv = (TextView) findViewById(R.id.textView);
+                final EditText editText = (EditText) findViewById(R.id.editText);
+                final CheckBox checkBoxManual = (CheckBox) findViewById(R.id.checkBoxManual);
 
                 RadioGroup radiogroup = (RadioGroup) findViewById(R.id.RadioGroupDateFormat);
 
@@ -106,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
                         .putInt("DateFormatIndex", idx).commit();
 
-                //This is a test
 
                 if (true == checkBox24.isChecked()) {
                     strFormat = strYearFormat + " HH:mm";
@@ -127,9 +137,23 @@ public class MainActivity extends AppCompatActivity {
                     strFormat = strFormat.replace(" ", "_");
                 }
 
+                if (true == checkBoxManual.isChecked())
+                    strFormat = editText.getText().toString();
+
+
                 java.util.Date date = new java.util.Date();
                 Timestamp ts = new Timestamp(date.getTime());
-                String S = new SimpleDateFormat(strFormat).format(ts);
+                String S;
+
+                try { S = new SimpleDateFormat(strFormat).format(ts);}
+                catch(Exception e)
+                {
+                    Toast.makeText(v.getContext(), "Error:" + e.getMessage(), Toast.LENGTH_LONG)
+                            .show();
+                    return;
+                }
+
+
                 iv.setText(S);
 
                 if (true == checkBox.isChecked()) {
@@ -143,6 +167,10 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(v.getContext(), "Time stamp copied to clipboard", Toast.LENGTH_LONG)
                             .show();
                 }
+
+                editText.setText(strFormat);
+
+
             }
         });
 
@@ -199,6 +227,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.checkBoxUnderScore:
                 PreferenceManager.getDefaultSharedPreferences(this).edit()
                         .putBoolean("checkBoxUnderScore", checked).commit();
+                break;
+
+            case R.id.checkBoxManual:
+                PreferenceManager.getDefaultSharedPreferences(this).edit()
+                        .putBoolean("checkBoxManual", checked).commit();
                 break;
         }
 
