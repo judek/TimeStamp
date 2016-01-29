@@ -2,9 +2,12 @@ package com.judek.timestamp;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -31,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button button = (Button) findViewById(R.id.button);
+        final EditText editText = (EditText) findViewById(R.id.editText);
 
         final CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox);
         final CheckBox checkBoxSeconds = (CheckBox) findViewById(R.id.checkBoxSeconds);
@@ -39,9 +42,11 @@ public class MainActivity extends AppCompatActivity {
         final CheckBox checkBoxHyphen = (CheckBox) findViewById(R.id.checkBoxHyphen);
         final CheckBox checkBoxUnderScore = (CheckBox) findViewById(R.id.checkBoxUnderScore);
         final CheckBox checkBoxManual = (CheckBox) findViewById(R.id.checkBoxManual);
+        final TextView textViewHelp = (TextView)  findViewById(R.id.textViewHelp);
 
-
-
+        textViewHelp.setText( Html.fromHtml(
+                "<a href=\"http://judek.com/DateTimePatterns.html\">Advnced formating help</a>"));
+        textViewHelp.setMovementMethod(LinkMovementMethod.getInstance());
 
         boolean checked = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("checkBox", false);
@@ -67,6 +72,26 @@ public class MainActivity extends AppCompatActivity {
                 .getBoolean("checkBoxManual", false);
         checkBoxManual.setChecked(checked);
 
+        editText.setEnabled(checked);
+
+        if(checked) {
+            editText.setBackgroundColor(Color.WHITE);
+            textViewHelp.setVisibility(View.VISIBLE);
+        }
+        else {
+            editText.setBackgroundColor(Color.argb(0x00, 0x00, 0x66, 0x99));
+            textViewHelp.setVisibility(View.INVISIBLE);
+        }
+
+
+        String S = PreferenceManager.getDefaultSharedPreferences(this)
+                .getString("editText", "");
+
+        editText.setText(S);
+
+
+
+
         int idx = PreferenceManager.getDefaultSharedPreferences(this)
                .getInt("DateFormatIndex", 1);
 
@@ -86,93 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
         radio.setChecked(true);
 
-        button.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                TextView iv = (TextView) findViewById(R.id.textView);
-                final EditText editText = (EditText) findViewById(R.id.editText);
-                final CheckBox checkBoxManual = (CheckBox) findViewById(R.id.checkBoxManual);
-
-                RadioGroup radiogroup = (RadioGroup) findViewById(R.id.RadioGroupDateFormat);
-
-                int radioButtonID = radiogroup.getCheckedRadioButtonId();
-                View radioButton = radiogroup.findViewById(radioButtonID);
-                int idx = radiogroup.indexOfChild(radioButton);
-
-                String strYearFormat = "";
-
-                String strFormat = "";
-
-                switch(idx) {
-                    case 1:
-                        strYearFormat = "MM/dd/yyyy";
-                        break;
-                    case 2:
-                        strYearFormat = "dd/MM/yyyy";
-                        break;
-                    case 3:
-                        strYearFormat = "yyyy/MM/dd";
-                        break;
-                }
-
-                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-                        .putInt("DateFormatIndex", idx).commit();
-
-
-                if (true == checkBox24.isChecked()) {
-                    strFormat = strYearFormat + " HH:mm";
-                } else {
-                    strFormat = strYearFormat + " hh:mm a";
-                }
-
-                if (true == checkBoxSeconds.isChecked()) {
-                    strFormat = strFormat.replace(":mm", ":mm:ss");
-                }
-
-                if (true == checkBoxHyphen.isChecked()) {
-                    strFormat = strFormat.replace("/", "-");
-                }
-
-                if (true == checkBoxUnderScore.isChecked()) {
-                    strFormat = strFormat.replace(":", "_");
-                    strFormat = strFormat.replace(" ", "_");
-                }
-
-                if (true == checkBoxManual.isChecked())
-                    strFormat = editText.getText().toString();
-
-
-                java.util.Date date = new java.util.Date();
-                Timestamp ts = new Timestamp(date.getTime());
-                String S;
-
-                try { S = new SimpleDateFormat(strFormat).format(ts);}
-                catch(Exception e)
-                {
-                    Toast.makeText(v.getContext(), "Error:" + e.getMessage(), Toast.LENGTH_LONG)
-                            .show();
-                    return;
-                }
-
-
-                iv.setText(S);
-
-                if (true == checkBox.isChecked()) {
-
-                    ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-
-                    //We need API 11
-                    ClipData clip = ClipData.newPlainText("label", S);
-                    clipboard.setPrimaryClip(clip);
-
-                    Toast.makeText(v.getContext(), "Time stamp copied to clipboard", Toast.LENGTH_LONG)
-                            .show();
-                }
-
-                editText.setText(strFormat);
-
-
-            }
-        });
+        //button.setOnClickListener(new OnClickListener() { public void onClick(View v) {  } });
 
 
     }
@@ -232,8 +171,117 @@ public class MainActivity extends AppCompatActivity {
             case R.id.checkBoxManual:
                 PreferenceManager.getDefaultSharedPreferences(this).edit()
                         .putBoolean("checkBoxManual", checked).commit();
+
+
+                final EditText editText = (EditText) findViewById(R.id.editText);
+
+                editText.setEnabled(checked);
+                final TextView textViewHelp = (TextView)  findViewById(R.id.textViewHelp);
+
+                if(checked) {
+                    editText.setBackgroundColor(Color.WHITE);
+                    textViewHelp.setVisibility(View.VISIBLE);
+                }
+                else {
+                    editText.setBackgroundColor(Color.argb(0x00, 0x00, 0x66, 0x99));
+                    textViewHelp.setVisibility(View.INVISIBLE);
+                }
                 break;
         }
 
            }
+
+    public void buttonClicked(View v){
+
+        TextView iv = (TextView) findViewById(R.id.textView);
+        final EditText editText = (EditText) findViewById(R.id.editText);
+        final CheckBox checkBoxManual = (CheckBox) findViewById(R.id.checkBoxManual);
+
+        RadioGroup radiogroup = (RadioGroup) findViewById(R.id.RadioGroupDateFormat);
+        final CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox);
+        final CheckBox checkBoxSeconds = (CheckBox) findViewById(R.id.checkBoxSeconds);
+        final CheckBox checkBox24 = (CheckBox) findViewById(R.id.checkBox24);
+        final CheckBox checkBoxHyphen = (CheckBox) findViewById(R.id.checkBoxHyphen);
+        final CheckBox checkBoxUnderScore = (CheckBox) findViewById(R.id.checkBoxUnderScore);
+
+
+        int radioButtonID = radiogroup.getCheckedRadioButtonId();
+        View radioButton = radiogroup.findViewById(radioButtonID);
+        int idx = radiogroup.indexOfChild(radioButton);
+
+        String strYearFormat = "";
+
+        String strFormat = "";
+
+        switch(idx) {
+            case 1:
+                strYearFormat = "MM/dd/yyyy";
+                break;
+            case 2:
+                strYearFormat = "dd/MM/yyyy";
+                break;
+            case 3:
+                strYearFormat = "yyyy/MM/dd";
+                break;
+        }
+
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+                .putInt("DateFormatIndex", idx).commit();
+
+
+        if (true == checkBox24.isChecked()) {
+            strFormat = strYearFormat + " HH:mm";
+        } else {
+            strFormat = strYearFormat + " hh:mm a";
+        }
+
+        if (true == checkBoxSeconds.isChecked()) {
+            strFormat = strFormat.replace(":mm", ":mm:ss");
+        }
+
+        if (true == checkBoxHyphen.isChecked()) {
+            strFormat = strFormat.replace("/", "-");
+        }
+
+        if (true == checkBoxUnderScore.isChecked()) {
+            strFormat = strFormat.replace(":", "_");
+            strFormat = strFormat.replace(" ", "_");
+        }
+
+        if (true == checkBoxManual.isChecked())
+            strFormat = editText.getText().toString();
+
+
+        java.util.Date date = new java.util.Date();
+        Timestamp ts = new Timestamp(date.getTime());
+        String S;
+
+        try { S = new SimpleDateFormat(strFormat).format(ts);}
+        catch(Exception e)
+        {
+            Toast.makeText(v.getContext(), "Error:" + e.getMessage(), Toast.LENGTH_LONG)
+                    .show();
+            return;
+        }
+
+
+        iv.setText(S);
+
+        if (true == checkBox.isChecked()) {
+
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+
+            //We need API 11
+            ClipData clip = ClipData.newPlainText("label", S);
+            clipboard.setPrimaryClip(clip);
+
+            Toast.makeText(v.getContext(), "Time stamp copied to clipboard", Toast.LENGTH_LONG)
+                    .show();
+        }
+
+        editText.setText(strFormat);
+
+        PreferenceManager.getDefaultSharedPreferences(this).edit()
+                .putString("editText", strFormat).commit();
+    }
 }
