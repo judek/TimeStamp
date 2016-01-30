@@ -43,6 +43,10 @@ public class MainActivity extends AppCompatActivity {
         final CheckBox checkBoxUnderScore = (CheckBox) findViewById(R.id.checkBoxUnderScore);
         final CheckBox checkBoxManual = (CheckBox) findViewById(R.id.checkBoxManual);
         final TextView textViewHelp = (TextView)  findViewById(R.id.textViewHelp);
+        final RadioButton radioButtonUSA = (RadioButton) findViewById(R.id.radioButtonUSA);
+        final RadioButton radioButtonEurope = (RadioButton) findViewById(R.id.radioButtonEurope);
+        final RadioButton radioButtonISO = (RadioButton) findViewById(R.id.radioButtonISO);
+        final TextView textView3 = (TextView) findViewById(R.id.textView3);
 
         textViewHelp.setText( Html.fromHtml(
                 "<a href=\"http://judek.com/DateTimePatterns.html\">Advanced formatting help</a>"));
@@ -77,10 +81,31 @@ public class MainActivity extends AppCompatActivity {
         if(checked) {
             editText.setBackgroundColor(Color.WHITE);
             textViewHelp.setVisibility(View.VISIBLE);
+            checkBox24.setEnabled(false);
+            checkBoxSeconds.setEnabled(false);
+            checkBoxHyphen.setEnabled(false);
+            checkBoxUnderScore.setEnabled(false);
+
+            radioButtonUSA.setEnabled(false);
+            radioButtonEurope.setEnabled(false);
+            radioButtonISO.setEnabled(false);
+
+            textView3.setEnabled(false);
         }
         else {
             editText.setBackgroundColor(Color.argb(0x00, 0x00, 0x66, 0x99));
             textViewHelp.setVisibility(View.INVISIBLE);
+
+            checkBox24.setEnabled(true);
+            checkBoxSeconds.setEnabled(true);
+            checkBoxHyphen.setEnabled(true);
+            checkBoxUnderScore.setEnabled(true);
+
+            radioButtonUSA.setEnabled(true);
+            radioButtonEurope.setEnabled(true);
+            radioButtonISO.setEnabled(true);
+
+            textView3.setEnabled(true);
         }
 
 
@@ -177,14 +202,45 @@ public class MainActivity extends AppCompatActivity {
 
                 editText.setEnabled(checked);
                 final TextView textViewHelp = (TextView)  findViewById(R.id.textViewHelp);
+                final CheckBox checkBox24 = (CheckBox) findViewById(R.id.checkBox24);
+                final CheckBox checkBoxSeconds = (CheckBox) findViewById(R.id.checkBoxSeconds);
+                final CheckBox checkBoxHyphen = (CheckBox) findViewById(R.id.checkBoxHyphen);
+                final CheckBox checkBoxUnderScore = (CheckBox) findViewById(R.id.checkBoxUnderScore);
+
+                final RadioButton radioButtonUSA = (RadioButton) findViewById(R.id.radioButtonUSA);
+                final RadioButton radioButtonEurope = (RadioButton) findViewById(R.id.radioButtonEurope);
+                final RadioButton radioButtonISO = (RadioButton) findViewById(R.id.radioButtonISO);
+                final TextView textView3 = (TextView) findViewById(R.id.textView3);
+
 
                 if(checked) {
                     editText.setBackgroundColor(Color.WHITE);
                     textViewHelp.setVisibility(View.VISIBLE);
+
+                    checkBox24.setEnabled(false);
+                    checkBoxSeconds.setEnabled(false);
+                    checkBoxHyphen.setEnabled(false);
+                    checkBoxUnderScore.setEnabled(false);
+
+                    radioButtonUSA.setEnabled(false);
+                    radioButtonEurope.setEnabled(false);
+                    radioButtonISO.setEnabled(false);
+
+                    textView3.setEnabled(false);
                 }
                 else {
                     editText.setBackgroundColor(Color.argb(0x00, 0x00, 0x66, 0x99));
                     textViewHelp.setVisibility(View.INVISIBLE);
+                    checkBox24.setEnabled(true);
+                    checkBoxSeconds.setEnabled(true);
+                    checkBoxHyphen.setEnabled(true);
+                    checkBoxUnderScore.setEnabled(true);
+
+                    radioButtonUSA.setEnabled(true);
+                    radioButtonEurope.setEnabled(true);
+                    radioButtonISO.setEnabled(true);
+
+                    textView3.setEnabled(true);
                 }
                 break;
         }
