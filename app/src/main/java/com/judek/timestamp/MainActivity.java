@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         final TextView textViewHelp = (TextView)  findViewById(R.id.textViewHelp);
 
         textViewHelp.setText( Html.fromHtml(
-                "<a href=\"http://judek.com/DateTimePatterns.html\">Advnced formating help</a>"));
+                "<a href=\"http://judek.com/DateTimePatterns.html\">Advanced formatting help</a>"));
         textViewHelp.setMovementMethod(LinkMovementMethod.getInstance());
 
         boolean checked = PreferenceManager.getDefaultSharedPreferences(this)
